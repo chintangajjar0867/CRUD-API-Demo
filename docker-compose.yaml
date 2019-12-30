@@ -1,0 +1,28 @@
+version: "3.7"
+networks:
+   mynet:
+     driver: bridge
+services:
+  web:
+    container_name: web
+    build: .
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    environment:
+      DB_HOST: 'mysql'
+      DB_USER: 'root'
+      DB_PASS: 'root'
+      DB_NAME: 'testdb'
+    networks:
+      - mynet
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'testdb'
+      MYSQL_USER: 'push'
+      MYSQL_PASSWORD: 'push'
+    networks:
+      - mynet
